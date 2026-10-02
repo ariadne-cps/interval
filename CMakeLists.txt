@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.15)
 project(Interval VERSION 1.0)
 
 option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+option(BUILD_PYTHON_BINDINGS "Build Python bindings" ON)
 
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/submodules/numeric/submodules/configuration/cmake/ProjectOptions.cmake")
     message(FATAL_ERROR
@@ -49,6 +50,10 @@ setup_standalone_project_tests(
         "${PROJECT_SOURCE_DIR}/include"
         "${PROJECT_SOURCE_DIR}/src"
 )
+
+if(BUILD_PYTHON_BINDINGS)
+    add_subdirectory(python)
+endif()
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
     install(FILES "${PROJECT_SOURCE_DIR}/include/ariadne-interval.hpp"
