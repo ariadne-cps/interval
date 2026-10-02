@@ -8,7 +8,6 @@
 #ifndef ARIADNE_PYTHON_INTERVAL_UTILITIES_HPP
 #define ARIADNE_PYTHON_INTERVAL_UTILITIES_HPP
 
-#include "numeric-utilities.hpp"
 #include "numeric_submodule.hpp"
 
 #include "interval/interval.hpp"
