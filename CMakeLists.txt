@@ -32,6 +32,12 @@ target_link_libraries(interval INTERFACE numeric)
 add_subdirectory(src)
 target_link_libraries(INTERVAL_SRC PRIVATE interval)
 
+ariadne_register_public_headers(
+    TARGET interval
+    DIRECTORIES "${PROJECT_SOURCE_DIR}/include/interval"
+    FILES "${PROJECT_SOURCE_DIR}/include/ariadne-interval.hpp"
+)
+
 setup_project_library(
     TARGET ariadne-interval
     OBJECTS
@@ -56,10 +62,8 @@ if(BUILD_PYTHON_BINDINGS)
 endif()
 
 if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
-    install(FILES "${PROJECT_SOURCE_DIR}/include/ariadne-interval.hpp"
-        DESTINATION include/ariadne-interval
-    )
-    install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/interval"
+    ariadne_install_dependency_bundle(
+        TARGET interval
         DESTINATION include/ariadne-interval
     )
 endif()

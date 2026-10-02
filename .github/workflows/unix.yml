@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - decoupled-interval
   pull_request:
 
 env:
@@ -73,3 +74,7 @@ jobs:
     - name: Install Ariadne Interval
       working-directory: ${{ runner.workspace }}/build
       run: cmake --install . --prefix ${{ runner.workspace }}/install
+
+    - name: Verify Final Installation
+      working-directory: ${{ runner.workspace }}/build
+      run: cmake --install . --prefix ${{ runner.workspace }}/verify-install
