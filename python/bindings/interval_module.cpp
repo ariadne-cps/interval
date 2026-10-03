@@ -7,12 +7,12 @@
 
 #include "pybind11.hpp"
 
-void paradigm_submodule(pybind11::module& module);
+void foundation_submodule(pybind11::module& module);
 void numeric_submodule(pybind11::module& module);
 void interval_submodule(pybind11::module& module);
 
 PYBIND11_MODULE(pyariadne, module) {
-    paradigm_submodule(module);
+    foundation_submodule(module);
     numeric_submodule(module);
     interval_submodule(module);
 }
