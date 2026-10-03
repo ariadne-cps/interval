@@ -19,7 +19,7 @@ if(Python3_FOUND)
             $<TARGET_OBJECTS:pyariadne-interval-module-obj>
             $<TARGET_OBJECTS:INTERVAL_SRC>
             $<TARGET_OBJECTS:NUMERIC_SRC>
-            $<TARGET_OBJECTS:PARADIGM_SRC>
+            $<TARGET_OBJECTS:FOUNDATION_SRC>
             $<TARGET_OBJECTS:UTILITY_SRC>
         )
         target_link_libraries(pyariadne PRIVATE

@@ -43,7 +43,7 @@ setup_project_library(
     OBJECTS
         INTERVAL_SRC
         NUMERIC_SRC
-        PARADIGM_SRC
+        FOUNDATION_SRC
         UTILITY_SRC
     LINK_LIBRARIES interval
 )
