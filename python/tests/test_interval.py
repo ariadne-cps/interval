@@ -53,6 +53,8 @@ def test_interval():
     assert type(subset(xivl,xivl)) == Boolean
     assert type(subset(livl,uivl)) == ValidatedUpperKleenean
     assert type(subset(uivl,livl)) == ValidatedLowerKleenean
+    subset(livl,livl)
+    subset(uivl,uivl)
     assert type(subset(aivl,aivl)) == ApproximateKleenean
 
     assert IntervalDomainType == FloatDPExactInterval

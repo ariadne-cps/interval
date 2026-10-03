@@ -206,8 +206,14 @@ Void export_interval(pybind11::module& module, std::string name=python_class_nam
 
     module.def("disjoint",
         (DisjointType(*)(IntervalType const&,IntervalType const&))&disjoint);
-    module.def("subset",
-        (SubsetType(*)(Interval<UpperBoundType> const&,Interval<LowerBoundType> const&))&subset);
+    module.def("subset", [](IntervalType const& ivl1, IntervalType const& ivl2) {
+        return subset(ivl1,ivl2);
+    });
+    if constexpr (not (Same<IntervalType,Interval<UpperBoundType>>
+                   and Same<IntervalType,Interval<LowerBoundType>>)) {
+        module.def("subset",
+            (SubsetType(*)(Interval<UpperBoundType> const&,Interval<LowerBoundType> const&))&subset);
+    }
     module.def("intersection",
         (IntervalType(*)(IntervalType const&,IntervalType const&))&intersection);
     module.def("hull",
