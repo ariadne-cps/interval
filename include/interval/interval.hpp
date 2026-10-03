@@ -37,6 +37,7 @@
 #include "numeric/lower_number.hpp"
 #include "numeric/floats.hpp"
 #include "numeric/dyadic.hpp"
+#include "numeric/decimal.hpp"
 #include "numeric/arithmetic.hpp"
 
 #include "interval.decl.hpp"
