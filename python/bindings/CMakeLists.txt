@@ -8,10 +8,10 @@ add_library(pyariadne-interval-submodule-obj OBJECT
 target_include_directories(pyariadne-interval-submodule-obj PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${PYTHON_COMMON_SOURCE_DIR}/include"
+    $<TARGET_PROPERTY:pyariadne-numeric,INTERFACE_INCLUDE_DIRECTORIES>
 )
 target_link_libraries(pyariadne-interval-submodule-obj PRIVATE
     pyariadne-python-common
-    pyariadne-numeric
     pybind11::module
     interval
 )
@@ -26,6 +26,7 @@ target_sources(pyariadne-interval INTERFACE
 )
 target_include_directories(pyariadne-interval INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<TARGET_PROPERTY:pyariadne-numeric,INTERFACE_INCLUDE_DIRECTORIES>
 )
 target_link_libraries(pyariadne-interval INTERFACE
     pyariadne-numeric
