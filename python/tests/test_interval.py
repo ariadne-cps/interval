@@ -61,9 +61,9 @@ def test_interval():
 
 def test_interval_arithmetic_and_repr():
     dp = DoublePrecision()
-    u = FloatDPUpperBound(1,dp)
-    v = FloatDPUpperBound(2,dp)
-    ivl = FloatDPUpperInterval(u,v)
+    l = FloatDPLowerBound(1,dp)
+    u = FloatDPUpperBound(2,dp)
+    ivl = FloatDPUpperInterval(l,u)
 
     assert type(ivl + ivl) == FloatDPUpperInterval
     assert type(sqr(ivl)) == FloatDPUpperInterval
