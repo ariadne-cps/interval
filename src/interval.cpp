@@ -44,12 +44,12 @@ Interval<FloatDP> widen_domain(Interval<FloatDPUpperBound> const& ivl) {
     volatile double neg_l=(-ivl.lower_bound()).get_d();
     volatile double l=-neg_l;
     volatile double u=ivl.upper_bound().get_d();
-    volatile float neg_rl=neg_l;
-    volatile float ru=u;
+    volatile float neg_rl=static_cast<float>(neg_l);
+    volatile float ru=static_cast<float>(u);
     if(l==u) { neg_rl=neg_rl+min; ru=ru+min; }
     if(neg_rl<neg_l) { neg_rl=neg_rl+min; }
     if(ru<u) { ru=ru+min; }
-    volatile float rl=-neg_l;
+    volatile float rl=static_cast<float>(-neg_l);
     Interval<FloatDP> res(ExactDouble(rl),ExactDouble(ru),dp);
     FloatDP::set_rounding_mode(rnd);
     return res;
@@ -61,8 +61,8 @@ Interval<FloatDP> approximate_domain(Interval<FloatDPUpperBound> const& ivl) {
     volatile float eps=std::numeric_limits<float>::epsilon();
     volatile double l=ivl.lower_bound().get_d();
     volatile double u=ivl.upper_bound().get_d();
-    volatile float rl=l;
-    volatile float ru=u;
+    volatile float rl=static_cast<float>(l);
+    volatile float ru=static_cast<float>(u);
     if(rl==ru) { rl=rl-(rl*eps); ru=ru+(ru*eps); }
     Interval<FloatDP> res(ExactDouble(rl),ExactDouble(ru),dp);
     FloatDP::set_rounding_mode(rnd);
