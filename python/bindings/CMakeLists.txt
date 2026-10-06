@@ -16,10 +16,6 @@ target_link_libraries(pyariadne-interval-submodule-obj PRIVATE
     interval
 )
 set_target_properties(pyariadne-interval-submodule-obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
-if(MSVC)
-    target_compile_options(pyariadne-interval-submodule-obj PRIVATE /bigobj)
-endif()
-
 add_library(pyariadne-interval INTERFACE)
 target_sources(pyariadne-interval INTERFACE
     $<TARGET_OBJECTS:pyariadne-interval-submodule-obj>
