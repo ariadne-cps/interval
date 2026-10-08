@@ -43,9 +43,7 @@ target_link_libraries(INTERVAL_SRC PRIVATE interval)
 ariadne_register_public_headers(
     TARGET interval
     DIRECTORIES "${PROJECT_SOURCE_DIR}/include/interval"
-    FILES
-        "${PROJECT_SOURCE_DIR}/include/ariadne-interval.hpp"
-        "${PROJECT_SOURCE_DIR}/include/interval.decl.hpp"
+    FILES "${PROJECT_SOURCE_DIR}/include/ariadne-interval.hpp"
 )
 
 setup_project_library(
