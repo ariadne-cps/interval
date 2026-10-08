@@ -361,8 +361,25 @@ Void TestIntervalType::test_implementation_coverage()
     FloatDPUpperInterval nonsingleton(1,2);
     ARIADNE_TEST_EXECUTE(widen_domain(singleton));
     ARIADNE_TEST_EXECUTE(widen_domain(nonsingleton));
+
+    FloatDPUpperInterval rounds_down(FloatDP(-1.3_x,dp),FloatDP(2.3_x,dp));
+    auto widened_rounds_down=widen_domain(rounds_down);
+    ARIADNE_TEST_COMPARE(widened_rounds_down.lower_bound(),<=,rounds_down.lower_bound().raw());
+    ARIADNE_TEST_COMPARE(widened_rounds_down.upper_bound(),>=,rounds_down.upper_bound().raw());
+
     ARIADNE_TEST_EXECUTE(approximate_domain(singleton));
     ARIADNE_TEST_EXECUTE(approximate_domain(nonsingleton));
+
+    FloatMPUpperInterval mp_default;
+    FloatMPUpperInterval mp_empty{EmptyInterval()};
+    FloatMPUpperInterval mp_entire{EntireInterval()};
+    auto mp_unit=FloatMPUpperInterval::unit_interval();
+    ARIADNE_TEST_ASSERT(mp_default.is_empty());
+    ARIADNE_TEST_ASSERT(mp_empty.is_empty());
+    ARIADNE_TEST_COMPARE(mp_unit.lower_bound().raw(),==,FloatMP(-1,FloatMP::get_default_precision()));
+    ARIADNE_TEST_COMPARE(mp_unit.upper_bound().raw(),==,FloatMP(+1,FloatMP::get_default_precision()));
+    ARIADNE_TEST_COMPARE(mp_entire.lower_bound().raw(),==,FloatMP(-inf,FloatMP::get_default_precision()));
+    ARIADNE_TEST_COMPARE(mp_entire.upper_bound().raw(),==,FloatMP(+inf,FloatMP::get_default_precision()));
 
     ARIADNE_TEST_EXECUTE(to_time_bounds(Dyadic(1),Dyadic(2)));
     DyadicInterval dyadic_interval(Dyadic(1),Dyadic(2));

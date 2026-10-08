@@ -159,16 +159,6 @@ ValidatedKleenean eq(FloatDPUpperInterval const& ivl1, FloatDPUpperInterval cons
 ValidatedKleenean lt(FloatDPUpperInterval const& ivl1, FloatDPUpperInterval const& ivl2) {
     return lt(cast_singleton(ivl1),cast_singleton(ivl2)); }
 
-template<> Interval<FloatMPUpperBound>::Interval() : Interval(EmptyInterval()) { }
-template<> Interval<FloatMPUpperBound>::Interval(EmptyInterval const&)
-    : Interval(FloatMP::inf(Sign::POSITIVE,FloatMP::get_default_precision()),
-               FloatMP::inf(Sign::NEGATIVE,FloatMP::get_default_precision())) { }
-template<> Interval<FloatMPUpperBound>::Interval(UnitInterval const&)
-    : Interval(FloatMP(-1,FloatMP::get_default_precision()),FloatMP(+1,FloatMP::get_default_precision())) { }
-template<> Interval<FloatMPUpperBound>::Interval(EntireInterval const&)
-    : Interval(FloatMP(-inf,FloatMP::get_default_precision()),FloatMP(+inf,FloatMP::get_default_precision())) { }
-
-
 FloatMPBounds cast_singleton(FloatMPUpperInterval const& ivl) {
     return FloatMPBounds(ivl.lower_bound(),ivl.upper_bound()); }
 FloatMPUpperInterval make_interval(FloatMPBounds const& x) {

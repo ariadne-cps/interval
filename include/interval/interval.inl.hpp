@@ -218,9 +218,4 @@ inline Interval<Float<MP>> cast_exact_interval(Interval<FloatApproximation<MP>> 
 inline FloatDPLowerBound mig(FloatDPUpperInterval const& ivl) { return mig(cast_singleton(ivl)); }
 inline FloatMPLowerBound mig(FloatMPUpperInterval const& ivl) { return mig(cast_singleton(ivl)); }
 
-template<> Interval<FloatMPUpperBound>::Interval();
-template<> Interval<FloatMPUpperBound>::Interval(EmptyInterval const&);
-template<> Interval<FloatMPUpperBound>::Interval(UnitInterval const&);
-template<> Interval<FloatMPUpperBound>::Interval(EntireInterval const&);
-
 } // namespace Ariadne
