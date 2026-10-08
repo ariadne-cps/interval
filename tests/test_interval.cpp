@@ -364,7 +364,7 @@ Void TestIntervalType::test_implementation_coverage()
     ARIADNE_TEST_COMPARE(widened_singleton.upper_bound(),>,singleton.upper_bound().raw());
     ARIADNE_TEST_EXECUTE(widen_domain(nonsingleton));
 
-    FloatDPUpperInterval rounds_down(FloatDP(-1.3_x,dp),FloatDP(2.3_x,dp));
+    FloatDPUpperInterval rounds_down(FloatDP(ExactDouble(-1.3),dp),FloatDP(ExactDouble(2.3),dp));
     auto widened_rounds_down=widen_domain(rounds_down);
     ARIADNE_TEST_COMPARE(widened_rounds_down.lower_bound(),<=,rounds_down.lower_bound().raw());
     ARIADNE_TEST_COMPARE(widened_rounds_down.upper_bound(),>=,rounds_down.upper_bound().raw());
