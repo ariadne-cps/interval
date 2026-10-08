@@ -168,6 +168,26 @@ Void TestIntervalType::test_input()
     if(!equal(ivl1,ivl2)) {
         ARIADNE_TEST_WARN("ExactIntervalType string constructor returns an approximate interval, not an outwardly rounded interval.");
     }
+
+    stringstream parentheses("(1:2)");
+    parentheses >> ivl1;
+    ARIADNE_TEST_ASSERT(equal(ivl1,ExactIntervalType(1,2)));
+
+    stringstream semicolon("[1;2]");
+    semicolon >> ivl1;
+    ARIADNE_TEST_ASSERT(equal(ivl1,ExactIntervalType(1,2)));
+
+    stringstream incomplete("[1,");
+    ARIADNE_TEST_FAIL(incomplete >> ivl1);
+
+    stringstream invalid_left("x1,2]");
+    ARIADNE_TEST_FAIL(invalid_left >> ivl1);
+
+    stringstream invalid_middle("[1x2]");
+    ARIADNE_TEST_FAIL(invalid_middle >> ivl1);
+
+    stringstream invalid_right("[1,2x");
+    ARIADNE_TEST_FAIL(invalid_right >> ivl1);
 }
 
 Void TestIntervalType::test_comparison() {
