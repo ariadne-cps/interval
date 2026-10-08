@@ -37,6 +37,24 @@
 using namespace Ariadne;
 using namespace std;
 
+namespace {
+
+constexpr bool check_concept()
+{
+    using I=ExactIntervalType;
+    return requires(DoublePrecision pr, Int n, Nat m, ExactDouble d, FloatDP x, FloatDP a, FloatDP b,
+                    ExactIntervalType xivl, UpperIntervalType uivl) {
+        uivl=I(); uivl=I(n); uivl=I(m); uivl=I(d); uivl=I(x); uivl=I(xivl);
+        uivl=I(n,n); uivl=I(m,m); uivl=I(d,d); uivl=I(a,b);
+        uivl=I(n,m); uivl=I(m,d); uivl=I(d,n);
+        uivl=n; uivl=m; uivl=x; uivl=xivl;
+    };
+}
+
+static_assert(check_concept());
+
+} // namespace
+
 class TestIntervalType
 {
     typedef ExactIntervalType I;
@@ -44,7 +62,6 @@ class TestIntervalType
   public:
     Void test();
   private:
-    Void test_concept();
     Void test_constructors();
     Void test_input();
     Void test_class();
@@ -65,28 +82,6 @@ TestIntervalType::test()
     ARIADNE_TEST_CALL(test_geometric_predicates());
     ARIADNE_TEST_CALL(test_arithmetic());
     ARIADNE_TEST_CALL(regression_tests());
-}
-
-Void
-TestIntervalType::test_concept()
-{
-    DoublePrecision pr;
-    Int n=1;
-    Nat m=1;
-    ExactDouble d=1;
-    FloatDP x={1,pr};
-    FloatDP a(pr),b(pr);
-    ExactIntervalType xivl;
-    UpperIntervalType uivl;
-
-    // Constructors
-    uivl=I(); uivl=I(n); uivl=I(m); uivl=I(d); uivl=I(x); uivl=I(xivl);
-    uivl=I(n,n); uivl=I(m,m); uivl=I(d,d); uivl=I(a,b);
-    uivl=I(n,m); uivl=I(m,d); uivl=I(d,n);
-
-    // Assignment
-    uivl=n; uivl=m; uivl=x; uivl=xivl;
-
 }
 
 
