@@ -20,16 +20,7 @@ Ariadne Interval is the standalone C++20 interval layer used by Ariadne. It prov
 
 ## Dependencies
 
-Interval depends directly on:
-
-- [ariadne-cps/numeric](https://github.com/ariadne-cps/numeric), included as a Git submodule.
-
-Numeric provides [ariadne-cps/paradigm](https://github.com/ariadne-cps/paradigm) transitively, which in turn provides [ariadne-cps/utility](https://github.com/ariadne-cps/utility). Build configuration and the shared Python binding infrastructure are also provided through the Numeric dependency cone.
-
-Numeric requires:
-
-- [GMP](https://gmplib.org/).
-- [MPFR](https://www.mpfr.org/).
+Interval depends on [ariadne-cps/numeric](https://github.com/ariadne-cps/numeric), included as a Git submodule. Its transitive dependencies are managed through the repository submodules.
 
 ## Build
 
@@ -45,7 +36,7 @@ cmake --build . --parallel
 ctest --output-on-failure
 ```
 
-A C++20 compiler, CMake, GMP and MPFR are required.
+A C++20 compiler and CMake are required.
 
 ## Tutorials
 

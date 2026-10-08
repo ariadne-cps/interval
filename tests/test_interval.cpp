@@ -115,8 +115,8 @@ Void test_upper_interval_implementation(typename F::PrecisionType pr)
     ARIADNE_TEST_EXECUTE(cast_exact(x));
     ARIADNE_TEST_EXECUTE(class_name<I>());
 
-    A ax(Approximation<F>(one),Approximation<F>(two));
-    A ay(Approximation<F>(three),Approximation<F>(four));
+    A ax{Approximation<F>(one),Approximation<F>(two)};
+    A ay{Approximation<F>(three),Approximation<F>(four)};
     ARIADNE_TEST_EXECUTE(add(ax,ay));
     ARIADNE_TEST_EXECUTE(sub(ax,ay));
     ARIADNE_TEST_EXECUTE(mul(ax,ay));
