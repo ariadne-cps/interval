@@ -47,9 +47,7 @@ Interval<FloatDP> widen_domain(Interval<FloatDPUpperBound> const& ivl) {
     volatile float neg_rl=static_cast<float>(neg_l);
     volatile float ru=static_cast<float>(u);
     if(l==u) { neg_rl=neg_rl+min; ru=ru+min; }
-    if(neg_rl<neg_l) { neg_rl=neg_rl+min; }
-    if(ru<u) { ru=ru+min; }
-    volatile float rl=static_cast<float>(-neg_l);
+    volatile float rl=-neg_rl;
     Interval<FloatDP> res(ExactDouble(rl),ExactDouble(ru),dp);
     FloatDP::set_rounding_mode(rnd);
     return res;
