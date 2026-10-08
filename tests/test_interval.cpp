@@ -60,10 +60,10 @@ Void test_upper_interval_implementation(typename F::PrecisionType pr)
     using I=Interval<UpperBound<F>>;
     using A=Interval<Approximation<F>>;
 
-    F one(1,pr), two(2,pr), three(3,pr), four(4,pr);
+    F one(1,pr), two_value(2,pr), three(3,pr), four(4,pr);
     F half(Dyadic(1,1u),pr), minus_half(Dyadic(-1,1u),pr);
 
-    I x(one,two);
+    I x(one,two_value);
     I y(three,four);
     I trig(minus_half,half);
     I negative(F(-4,pr),F(-1,pr));
@@ -115,7 +115,7 @@ Void test_upper_interval_implementation(typename F::PrecisionType pr)
     ARIADNE_TEST_EXECUTE(cast_exact(x));
     ARIADNE_TEST_EXECUTE(class_name<I>());
 
-    A ax{Approximation<F>(one),Approximation<F>(two)};
+    A ax{Approximation<F>(one),Approximation<F>(two_value)};
     A ay{Approximation<F>(three),Approximation<F>(four)};
     ARIADNE_TEST_EXECUTE(add(ax,ay));
     ARIADNE_TEST_EXECUTE(sub(ax,ay));
@@ -125,7 +125,7 @@ Void test_upper_interval_implementation(typename F::PrecisionType pr)
     ARIADNE_TEST_EXECUTE(cast_exact(ax));
     ARIADNE_TEST_EXECUTE(cast_exact_interval(ax));
 
-    Interval<F> exact(one,two);
+    Interval<F> exact(one,two_value);
     ARIADNE_TEST_EXECUTE(exact.lower_bound());
     ARIADNE_TEST_EXECUTE(exact.upper_bound());
     ARIADNE_TEST_EXECUTE(class_name<Interval<F>>());

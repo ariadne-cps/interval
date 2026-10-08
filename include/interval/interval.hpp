@@ -236,7 +236,7 @@ template<class U> class Interval
     template<class V> requires Constructible<L,V> and Constructible<U,V>
         explicit Interval(const V& v) : _l(v), _u(v) { }
     template<class V> requires ConstructibleGivenDefaultPrecision<U,V> and (not Constructible<U,V>)
-        explicit Interval(const V& v) : Interval(L(v,PrecisionType<U>()),U(v,PrecisionType<U>())) { }
+        explicit Interval(const V& v) : Interval(L(v,RawFloatType<PrecisionType<U>>::get_default_precision()),U(v,RawFloatType<PrecisionType<U>>::get_default_precision())) { }
     //! \brief Assign a singleton interval from a number.
     template<class V> requires Assignable<L,V> and Assignable<U,V>
         Interval<U>& operator=(const V& v) { _l=v; _u=v; return *this; }
@@ -255,13 +255,13 @@ template<class U> class Interval
         explicit Interval(Interval<UU> const& x, PR pr) : _l(x.lower_bound(),pr), _u(x.upper_bound(),pr) { }
     //! \brief Construct from an interval of a different type using a default precision.
     template<class UU> requires ConstructibleGivenDefaultPrecision<U,UU> and (not Constructible<U,UU>)
-        explicit Interval(Interval<UU> const& x) : Interval(x,PrecisionType<U>()) { }
+        explicit Interval(Interval<UU> const& x) : Interval(x,RawFloatType<PrecisionType<U>>::get_default_precision()) { }
     //! \brief Construct from an interval of a different type using a default precision.
     template<class LL, class UU> requires
             ConstructibleGivenDefaultPrecision<L,LL> and
             ConstructibleGivenDefaultPrecision<U,UU> and
             ( not (Constructible<L,LL> and Constructible<U,UU>) )
-        Interval(LL const& l, UU const& u) : Interval(L(l,PrecisionType<U>()),U(u,PrecisionType<U>())) { }
+        Interval(LL const& l, UU const& u) : Interval(L(l,RawFloatType<PrecisionType<U>>::get_default_precision()),U(u,RawFloatType<PrecisionType<U>>::get_default_precision())) { }
 
     //! \brief Construct an interval with the lower and upper bounds.
     //! FIXME: Should be explicit, but this would clash with Box constructor from initializer list of double/FloatDP.
