@@ -30,6 +30,7 @@
 #include <string>
 
 #include "numeric/rational.hpp"
+#include "numeric/real.hpp"
 #include "interval/interval.hpp"
 
 #include "utility/test.hpp"
@@ -53,6 +54,83 @@ constexpr bool check_concept()
 
 static_assert(check_concept());
 
+template<class F>
+Void test_upper_interval_implementation(typename F::PrecisionType pr)
+{
+    using I=Interval<UpperBound<F>>;
+    using A=Interval<Approximation<F>>;
+
+    F one(1,pr), two(2,pr), three(3,pr), four(4,pr);
+    F half(Dyadic(1,1u),pr), minus_half(Dyadic(-1,1u),pr);
+
+    I x(one,two);
+    I y(three,four);
+    I trig(minus_half,half);
+    I negative(F(-4,pr),F(-1,pr));
+    I crossing(F(-1,pr),one);
+
+    Bounds<F> bounds(1,2,pr);
+    ValidatedNumber generic=bounds.generic();
+    UpperIntervalFactory<F> fac(pr);
+
+    ARIADNE_TEST_EXECUTE(fac.create(generic));
+    ARIADNE_TEST_EXECUTE(cast_singleton(x));
+    ARIADNE_TEST_EXECUTE(make_interval(bounds));
+
+    ARIADNE_TEST_EXECUTE(max(x,y));
+    ARIADNE_TEST_EXECUTE(min(x,y));
+    ARIADNE_TEST_EXECUTE(abs(x));
+    ARIADNE_TEST_EXECUTE(nul(x));
+    ARIADNE_TEST_EXECUTE(pos(x));
+    ARIADNE_TEST_EXECUTE(neg(x));
+    ARIADNE_TEST_EXECUTE(sqr(x));
+    ARIADNE_TEST_EXECUTE(hlf(x));
+    ARIADNE_TEST_EXECUTE(rec(x));
+
+    ARIADNE_TEST_EXECUTE(add(x,y));
+    ARIADNE_TEST_EXECUTE(sub(x,y));
+    ARIADNE_TEST_EXECUTE(mul(x,y));
+    ARIADNE_TEST_EXECUTE(div(x,y));
+    ARIADNE_TEST_EXECUTE(fma(x,y,x));
+    ARIADNE_TEST_EXECUTE(pow(x,Nat(2u)));
+    ARIADNE_TEST_EXECUTE(pow(x,Int(-2)));
+
+    ARIADNE_TEST_EXECUTE(sqrt(negative));
+    ARIADNE_TEST_EXECUTE(sqrt(x));
+    ARIADNE_TEST_EXECUTE(exp(x));
+    ARIADNE_TEST_EXECUTE(log(negative));
+    ARIADNE_TEST_EXECUTE(log(crossing));
+    ARIADNE_TEST_EXECUTE(log(x));
+    ARIADNE_TEST_EXECUTE(sin(trig));
+    ARIADNE_TEST_EXECUTE(cos(trig));
+    ARIADNE_TEST_EXECUTE(tan(trig));
+    ARIADNE_TEST_EXECUTE(asin(trig));
+    ARIADNE_TEST_EXECUTE(acos(trig));
+    ARIADNE_TEST_EXECUTE(atan(trig));
+
+    ARIADNE_TEST_EXECUTE(mag(x));
+    ARIADNE_TEST_EXECUTE(mig(x));
+    ARIADNE_TEST_EXECUTE(eq(x,y));
+    ARIADNE_TEST_EXECUTE(lt(x,y));
+    ARIADNE_TEST_EXECUTE(cast_exact(x));
+    ARIADNE_TEST_EXECUTE(class_name<I>());
+
+    A ax(Approximation<F>(one),Approximation<F>(two));
+    A ay(Approximation<F>(three),Approximation<F>(four));
+    ARIADNE_TEST_EXECUTE(add(ax,ay));
+    ARIADNE_TEST_EXECUTE(sub(ax,ay));
+    ARIADNE_TEST_EXECUTE(mul(ax,ay));
+    ARIADNE_TEST_EXECUTE(mag(ax));
+    ARIADNE_TEST_EXECUTE(eq(ax,ay));
+    ARIADNE_TEST_EXECUTE(cast_exact(ax));
+    ARIADNE_TEST_EXECUTE(cast_exact_interval(ax));
+
+    Interval<F> exact(one,two);
+    ARIADNE_TEST_EXECUTE(exact.lower_bound());
+    ARIADNE_TEST_EXECUTE(exact.upper_bound());
+    ARIADNE_TEST_EXECUTE(class_name<Interval<F>>());
+}
+
 } // namespace
 
 class TestIntervalType
@@ -68,6 +146,7 @@ class TestIntervalType
     Void test_comparison();
     Void test_geometric_predicates();
     Void test_arithmetic();
+    Void test_implementation_coverage();
     Void regression_tests();
 };
 
@@ -81,6 +160,7 @@ TestIntervalType::test()
     ARIADNE_TEST_CALL(test_comparison());
     ARIADNE_TEST_CALL(test_geometric_predicates());
     ARIADNE_TEST_CALL(test_arithmetic());
+    ARIADNE_TEST_CALL(test_implementation_coverage());
     ARIADNE_TEST_CALL(regression_tests());
 }
 
@@ -270,6 +350,28 @@ Void TestIntervalType::test_arithmetic() {
     ARIADNE_TEST_SAME(log(UpperIntervalType(-4,0)),e);
     ARIADNE_TEST_SAME(log(UpperIntervalType(-4,1)),UpperIntervalType(-inf,0));
     ARIADNE_TEST_SAME(log(UpperIntervalType( 0,1)),UpperIntervalType(-inf,0));
+}
+
+Void TestIntervalType::test_implementation_coverage()
+{
+    test_upper_interval_implementation<FloatDP>(dp);
+    test_upper_interval_implementation<FloatMP>(MultiplePrecision(128_bits));
+
+    FloatDPUpperInterval singleton(1,1);
+    FloatDPUpperInterval nonsingleton(1,2);
+    ARIADNE_TEST_EXECUTE(widen_domain(singleton));
+    ARIADNE_TEST_EXECUTE(widen_domain(nonsingleton));
+    ARIADNE_TEST_EXECUTE(approximate_domain(singleton));
+    ARIADNE_TEST_EXECUTE(approximate_domain(nonsingleton));
+
+    ARIADNE_TEST_EXECUTE(to_time_bounds(Dyadic(1),Dyadic(2)));
+    DyadicInterval dyadic_interval(Dyadic(1),Dyadic(2));
+    ARIADNE_TEST_EXECUTE(to_time_bounds(dyadic_interval));
+
+    RealInterval bounded_real(Real(1),Real(2));
+    ARIADNE_TEST_EXECUTE(is_bounded(bounded_real));
+
+    ARIADNE_TEST_EXECUTE(class_name<RealInterval>());
 }
 
 Void TestIntervalType::regression_tests() {
