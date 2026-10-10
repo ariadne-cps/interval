@@ -395,6 +395,20 @@ Void TestIntervalType::test_implementation_coverage()
 
 Void TestIntervalType::regression_tests() {
 
+    // Approximate upper intervals must materialise split points from the
+    // contained raw float rather than depending on wrapper layout.
+    {
+        FloatDPUpperInterval x(FloatDP(1.0_x,dp),FloatDP(3.0_x,dp));
+        FloatDP midpoint=x.midpoint();
+        ARIADNE_TEST_EQUAL(midpoint,FloatDP(2.0_x,dp));
+
+        auto parts=split(x);
+        ARIADNE_TEST_EQUAL(parts.first.lower_bound().raw(),FloatDP(1.0_x,dp));
+        ARIADNE_TEST_EQUAL(parts.first.upper_bound().raw(),midpoint);
+        ARIADNE_TEST_EQUAL(parts.second.lower_bound().raw(),midpoint);
+        ARIADNE_TEST_EQUAL(parts.second.upper_bound().raw(),FloatDP(3.0_x,dp));
+    }
+
     // Regression test; fails dramatically on certain types of rounding
     {
         UpperIntervalType x(1.5707963267948966_pr,1.5707963267948968_pr);
