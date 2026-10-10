@@ -48,11 +48,7 @@ ariadne_register_public_headers(
 
 setup_project_library(
     TARGET ariadne-interval
-    OBJECTS
-        INTERVAL_SRC
-        NUMERIC_SRC
-        FOUNDATION_SRC
-        UTILITY_SRC
+    OBJECTS INTERVAL_SRC
     LINK_LIBRARIES interval
 )
 
