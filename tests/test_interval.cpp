@@ -33,7 +33,7 @@
 #include "numeric/real.hpp"
 #include "interval/interval.hpp"
 
-#include "utility/test.hpp"
+#include "macro/testing.hpp"
 
 using namespace Ariadne;
 using namespace std;
