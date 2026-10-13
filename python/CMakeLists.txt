@@ -12,17 +12,7 @@ if(Python3_FOUND)
     add_subdirectory(bindings)
 
     if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
-        pybind11_add_module(pyariadne
-            $<TARGET_OBJECTS:pyariadne-interval-entry-obj>
-            $<TARGET_OBJECTS:INTERVAL_SRC>
-            $<TARGET_OBJECTS:NUMERIC_SRC>
-            $<TARGET_OBJECTS:FOUNDATION_SRC>
-            $<TARGET_OBJECTS:UTILITY_SRC>
-        )
-        target_link_libraries(pyariadne PRIVATE
-            pyariadne-interval
-            interval
-        )
+        ariadne_finalize_python_module(NAME interval)
 
         set(PYTHON_BINDINGS_INSTALL_DIR "${Python3_SITEARCH}"
             CACHE STRING "Install destination for Python targets")
