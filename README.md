@@ -3,6 +3,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Unix Status](https://github.com/ariadne-cps/interval/actions/workflows/unix.yml/badge.svg)](https://github.com/ariadne-cps/interval/actions/workflows/unix.yml)
 [![Windows Status](https://github.com/ariadne-cps/interval/actions/workflows/win.yml/badge.svg)](https://github.com/ariadne-cps/interval/actions/workflows/win.yml)
+[![Sanitizers Status](https://github.com/ariadne-cps/interval/actions/workflows/sanitizers.yml/badge.svg)](https://github.com/ariadne-cps/interval/actions/workflows/sanitizers.yml)
 [![Coverage Status](https://github.com/ariadne-cps/interval/actions/workflows/coverage.yml/badge.svg)](https://github.com/ariadne-cps/interval/actions/workflows/coverage.yml)
 [![codecov](https://codecov.io/gh/ariadne-cps/interval/branch/main/graph/badge.svg)](https://codecov.io/gh/ariadne-cps/interval)
 
@@ -29,14 +30,32 @@ Clone the repository together with its Git submodules:
 ```bash
 git clone --recurse-submodules https://github.com/ariadne-cps/interval.git
 cd interval
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build . --parallel
-ctest --output-on-failure
+cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release
+cmake --build build-release --parallel --target ariadne-interval bindings
+cmake --install build-release --prefix install
 ```
 
-A C++20 compiler and CMake are required.
+A C++20 compiler, CMake, GMP and MPFR are required. Python 3.11+ with
+development headers is required for the optional Python bindings;
+disable them with `-DBUILD_PYTHON_BINDINGS=OFF` if they are not needed.
+
+## Tests
+
+Build and run C++ and Python tests in a separate Debug build:
+
+```bash
+python -m pip install pytest
+cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug -DPYTHON_ENFORCE_TESTS=ON
+cmake --build build-debug --parallel --target tests
+ctest --test-dir build-debug -LE python --output-on-failure
+ctest --test-dir build-debug -L python --output-on-failure
+```
+
+## Sanitizers
+
+The Sanitizers workflow runs separate Debug jobs with ThreadSanitizer
+(TSan) and AddressSanitizer + UndefinedBehaviorSanitizer (ASan + UBSan)
+on Ubuntu/Clang. Python bindings are disabled in these jobs.
 
 ## Tutorials
 
