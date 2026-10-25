@@ -53,7 +53,7 @@ template<class PR> using FloatBallInterval = Interval<FloatBall<PR>>; //!< <p/>
 template<class PR> using FloatBoundsInterval = Interval<FloatBounds<PR>>; //!< <p/>
 template<class PR> using FloatUpperInterval = Interval<FloatUpperBound<PR>>; //!< <p/>
 template<class PR> using FloatLowerInterval = Interval<FloatLowerBound<PR>>; //!< <p/>
-template<class PR> using FloatApproximateInterval = Interval<FloatApproximation<PR>>; //!< <p/>
+template<class PR> using FloatApproximateInterval = ApproximateInterval<Float<PR>>; //!< <p/>
 //!@}
 
 //!@{

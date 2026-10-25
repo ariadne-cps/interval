@@ -202,18 +202,18 @@ template<class F> inline Interval<LowerBound<F>> narrow(Interval<LowerBound<F>> 
 template<class F> inline Interval<LowerBound<F>> narrow(Interval<F> const& ivl) {
     return narrow(Interval<LowerBound<F>>(ivl),UpperBound<F>(F::min(ivl.upper_bound().precision()))); }
 
-inline Interval<Float<DP>> cast_exact(Interval<FloatApproximation<DP>> const& ivl) {
-    return Interval<Float<DP>>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
-inline Interval<Float<MP>> cast_exact(Interval<FloatApproximation<MP>> const& ivl) {
-    return Interval<Float<MP>>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
-inline Interval<Float<DP>> cast_exact(Interval<FloatUpperBound<DP>> const& ivl) {
-    return Interval<Float<DP>>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
-inline Interval<Float<MP>> cast_exact(Interval<FloatUpperBound<MP>> const& ivl) {
-    return Interval<Float<MP>>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
-inline Interval<Float<DP>> cast_exact_interval(Interval<FloatApproximation<DP>> const& ivl) {
-    return Interval<Float<DP>>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
-inline Interval<Float<MP>> cast_exact_interval(Interval<FloatApproximation<MP>> const& ivl) {
-    return Interval<Float<MP>>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
+inline Interval<FloatDP> cast_exact(Interval<FloatDPApproximation> const& ivl) {
+    return Interval<FloatDP>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
+inline Interval<FloatMP> cast_exact(Interval<FloatMPApproximation> const& ivl) {
+    return Interval<FloatMP>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
+inline Interval<FloatDP> cast_exact(Interval<FloatDPUpperBound> const& ivl) {
+    return Interval<FloatDP>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
+inline Interval<FloatMP> cast_exact(Interval<FloatMPUpperBound> const& ivl) {
+    return Interval<FloatMP>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
+inline Interval<FloatDP> cast_exact_interval(Interval<FloatDPApproximation> const& ivl) {
+    return Interval<FloatDP>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
+inline Interval<FloatMP> cast_exact_interval(Interval<FloatMPApproximation> const& ivl) {
+    return Interval<FloatMP>(ivl.lower_bound().raw(),ivl.upper_bound().raw()); }
 
 inline FloatDPLowerBound mig(FloatDPUpperInterval const& ivl) { return mig(cast_singleton(ivl)); }
 inline FloatMPLowerBound mig(FloatMPUpperInterval const& ivl) { return mig(cast_singleton(ivl)); }
