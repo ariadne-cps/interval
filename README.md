@@ -35,7 +35,7 @@ cmake --build build-release --parallel --target ariadne-interval bindings
 cmake --install build-release --prefix install
 ```
 
-A C++20 compiler, CMake, GMP and MPFR are required. Python 3.11+ with
+A C++20 compiler and CMake are required. Python 3.11+ with
 development headers is required for the optional Python bindings;
 disable them with `-DBUILD_PYTHON_BINDINGS=OFF` if they are not needed.
 
