@@ -177,8 +177,8 @@ TestIntervalType::test_constructors()
 
     // Constructor from approximate values
     UpperIntervalType ivld4(2.1_pr,3.2_pr);
-    ARIADNE_TESTING_EXPECT_LESS_EQUAL(ivld4.lower_bound(), 2.1_pr);
-    ARIADNE_TESTING_EXPECT_GREATER_EQUAL(ivld4.upper_bound(), 3.2_pr);
+    ARIADNE_TESTING_EXPECT_LESS_EQUAL(ivld4.lower_bound().raw(), 2.1_pr);
+    ARIADNE_TESTING_EXPECT_GREATER_EQUAL(ivld4.upper_bound().raw(), 3.2_pr);
 
     // ApproximateTag constructor from a single value
     this->ctx().warning("Cannot construct Interval<UpperFloatDP> from Rational.");
@@ -244,16 +244,16 @@ Void TestIntervalType::test_input()
     ARIADNE_TESTING_PROVE(equal(ivl1,ExactIntervalType(1,2)));
 
     stringstream incomplete("[1,");
-    ARIADNE_TESTING_PROVE(!(incomplete >> ivl1));
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, incomplete >> ivl1, "operator>>");
 
     stringstream invalid_left("x1,2]");
-    ARIADNE_TESTING_PROVE(!(invalid_left >> ivl1));
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_left >> ivl1, "operator>>");
 
     stringstream invalid_middle("[1x2]");
-    ARIADNE_TESTING_PROVE(!(invalid_middle >> ivl1));
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_middle >> ivl1, "operator>>");
 
     stringstream invalid_right("[1,2x");
-    ARIADNE_TESTING_PROVE(!(invalid_right >> ivl1));
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_right >> ivl1, "operator>>");
 }
 
 Void TestIntervalType::test_comparison() {
@@ -400,10 +400,10 @@ Void TestIntervalType::regression_tests() {
         UpperIntervalType x(1.5707963267948966_pr,1.5707963267948968_pr);
         UpperIntervalType cosx=cos(x);
         ARIADNE_TESTING_INSPECT("x", x);
-        ARIADNE_TESTING_EXPECT_LESS(cosx.lower_bound(), 0.0_x);
-        ARIADNE_TESTING_EXPECT_GREATER(cosx.lower_bound(), -1e-14_pr);
-        ARIADNE_TESTING_EXPECT_GREATER(cosx.upper_bound(), 0.0_x);
-        ARIADNE_TESTING_EXPECT_LESS(cosx.upper_bound(), +1e-14_pr);
+        ARIADNE_TESTING_EXPECT_LESS(cosx.lower_bound().raw(), 0.0_x);
+        ARIADNE_TESTING_EXPECT_GREATER(cosx.lower_bound().raw(), -1e-14_pr);
+        ARIADNE_TESTING_EXPECT_GREATER(cosx.upper_bound().raw(), 0.0_x);
+        ARIADNE_TESTING_EXPECT_LESS(cosx.upper_bound().raw(), +1e-14_pr);
         ARIADNE_TESTING_PROVE(cosx.lower_bound().raw()<cosx.upper_bound().raw());
     }
 
