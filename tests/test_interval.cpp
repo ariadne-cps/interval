@@ -171,7 +171,7 @@ TestIntervalType::test_constructors()
 
     // Constructor without approximations
     RationalInterval ivld3(Rational(21,8),Rational(17,4));
-    cout<<ivld3<<std::endl;
+    ARIADNE_TESTING_INSPECT("ivld3", ivld3);
     ARIADNE_TESTING_EXPECT_EQUAL(ivld3.lower_bound(), Rational(21,8));
     ARIADNE_TESTING_EXPECT_EQUAL(ivld3.upper_bound(), Rational(17,4));
 
@@ -244,16 +244,16 @@ Void TestIntervalType::test_input()
     ARIADNE_TESTING_PROVE(equal(ivl1,ExactIntervalType(1,2)));
 
     stringstream incomplete("[1,");
-    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, incomplete >> ivl1, "operator>>");
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, incomplete >> ivl1, "Assertion `");
 
     stringstream invalid_left("x1,2]");
-    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_left >> ivl1, "operator>>");
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_left >> ivl1, "Assertion `");
 
     stringstream invalid_middle("[1x2]");
-    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_middle >> ivl1, "operator>>");
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_middle >> ivl1, "Assertion `");
 
     stringstream invalid_right("[1,2x");
-    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_right >> ivl1, "operator>>");
+    ARIADNE_TESTING_EXPECT_THROWS_MESSAGE(std::runtime_error, invalid_right >> ivl1, "Assertion `");
 }
 
 Void TestIntervalType::test_comparison() {
@@ -266,7 +266,7 @@ Void TestIntervalType::test_comparison() {
     ARIADNE_TESTING_PROVE(ivl1==ivl2);
     ExactIntervalType& ivl1ref=ivl1;
     ivl1ref=ExactIntervalType(5.25_x,7.375_x);
-    cout << "ivl1ref=" << ivl1ref << endl;
+    ARIADNE_TESTING_INSPECT("ivl1ref", ivl1ref);
     ARIADNE_TESTING_PROVE(ivl1ref.lower_bound()==5.25_x);
 }
 
