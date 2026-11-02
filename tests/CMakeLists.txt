@@ -9,7 +9,7 @@ if(WIN32)
 endif()
 
 add_executable(test_interval test_interval.cpp)
-target_link_libraries(test_interval ariadne-interval interval)
+target_link_libraries(test_interval PRIVATE ariadne-interval interval ariadne-testing)
 add_test(NAME test_interval COMMAND $<TARGET_FILE:test_interval>)
 if(WIN32)
     set_tests_properties(test_interval PROPERTIES
