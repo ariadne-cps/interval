@@ -30,5 +30,6 @@ target_link_libraries(pyariadne-interval INTERFACE
 
 ariadne_add_python_module(
     NAME interval
+    MODULE_IMPORT_NAME pyariadne_interval
     MODULE_SOURCE interval_module.cpp
 )

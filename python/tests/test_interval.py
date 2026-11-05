@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from pyariadne import *
+from pyariadne_interval import *
 
 IntervalDomainTypeAlias = FloatDPExactInterval
 IntervalRangeTypeAlias = FloatDPUpperInterval

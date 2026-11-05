@@ -86,6 +86,5 @@ If you would like to contribute to Interval, please contact the developer:
 
 - Luca Geretti <luca.geretti@univr.it>
 
-## License
 
 Interval is released under the GNU General Public License v3.0.

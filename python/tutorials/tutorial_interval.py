@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Ariadne. If not, see <https://www.gnu.org/licenses/>.
 
-from pyariadne import *
+from pyariadne_interval import *
 
 
 def show(label, value):
