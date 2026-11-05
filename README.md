@@ -8,6 +8,7 @@
 [![codecov](https://codecov.io/gh/ariadne-cps/interval/branch/main/graph/badge.svg)](https://codecov.io/gh/ariadne-cps/interval)
 
 Ariadne Interval is the standalone C++20 interval layer used by Ariadne. It provides generic interval types over the numeric abstractions supplied by Ariadne Numeric, together with interval predicates, arithmetic, elementary functions and conversions used by the higher-level Ariadne libraries.
+Although independently maintained and usable, this repository is also part of the [Ariadne repository structure](https://github.com/ariadne-cps/ariadne/blob/main/doc/structure.md).
 
 ## Features
 
