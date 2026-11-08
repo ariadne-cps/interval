@@ -20,10 +20,10 @@ if(NOT TARGET ariadne-build)
 endif()
 
 if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
-    # Pinned child commits are internally consistent; check direct occurrences
-    # without traversing redundant descendant chains.
+    # Check only production dependencies: Testing is development-only and
+    # must not constrain commit consistency with Build.
     require_same_dependency_commit(Build CHAINS
-        "build" "numeric|build" "testing|build")
+        "build" "numeric|build")
 endif()
 
 setup_project()
