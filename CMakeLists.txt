@@ -24,8 +24,6 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/.git")
     # without traversing redundant descendant chains.
     require_same_dependency_commit(Build CHAINS
         "build" "numeric|build" "testing|build")
-    require_same_dependency_commit(Testing CHAINS
-        "testing" "numeric|testing")
 endif()
 
 setup_project()
