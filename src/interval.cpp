@@ -27,14 +27,11 @@
 
 namespace Ariadne {
 
-static const uint GEOMETRY_OUTPUT_PLACES = 4;
-
 template<> OutputStream& operator<<(OutputStream& os, Interval<FloatDP> const& ivl) {
-    auto places = FloatDP::output_places;
-    FloatDP::output_places=GEOMETRY_OUTPUT_PLACES;
-    os << "{" << ivl.lower_bound() << ":" << ivl.upper_bound() << "}";
-    FloatDP::output_places=places;
-    return os;
+    // FloatDP insertion uses repr(), whose precision is explicit. Changing
+    // the legacy global output_places cannot affect this output and races
+    // with other formatters (and leaked the setting if the stream threw).
+    return os << "{" << ivl.lower_bound() << ":" << ivl.upper_bound() << "}";
 }
 
 Interval<FloatDP> widen_domain(Interval<FloatDPUpperBound> const& ivl) {
