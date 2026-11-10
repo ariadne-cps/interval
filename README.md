@@ -62,8 +62,8 @@ on Ubuntu/Clang. Python bindings are disabled in these jobs.
 
 The repository contains matching C++ and Python tutorials for the standalone Interval layer:
 
-- `tutorials/tutorial_interval/tutorial_interval.cpp`
-- `python/tutorials/tutorial_interval.py`
+- `tutorial/tutorial_interval.cpp`
+- `python/tutorial.py`
 
 CI installs Ariadne Interval, builds and runs the C++ tutorial against that installed package, then runs the Python tutorial against the freshly built `pyariadne` module.
 

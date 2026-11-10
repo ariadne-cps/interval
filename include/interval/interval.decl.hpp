@@ -1,5 +1,5 @@
 /***************************************************************************
- *            interval.decl.hpp
+ *            interval/interval.decl.hpp
  *
  *  Copyright  2008-20  Alberto Casagrande, Pieter Collins
  *

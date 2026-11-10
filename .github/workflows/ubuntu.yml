@@ -80,7 +80,7 @@ jobs:
 
       - name: Prepare C++ interval tutorial
         if: matrix.build_type == 'Release'
-        run: cmake -E copy_directory "$GITHUB_WORKSPACE/tutorials/tutorial_interval" "${{ runner.workspace }}/tutorial_interval"
+        run: cmake -E copy_directory "$GITHUB_WORKSPACE/tutorial" "${{ runner.workspace }}/tutorial_interval"
 
       - name: Build and check C++ interval tutorial
         if: matrix.build_type == 'Release'
@@ -98,7 +98,7 @@ jobs:
 
       - name: Check Python interval tutorial
         if: matrix.build_type == 'Release'
-        working-directory: ${{ github.workspace }}/python/tutorials
+        working-directory: ${{ github.workspace }}/tutorial
         env:
           PYTHONPATH: ${{ runner.workspace }}/build/python
         run: python tutorial_interval.py
