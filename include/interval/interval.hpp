@@ -22,8 +22,6 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
-
 /** @file interval/interval.hpp
  *  @brief Interval types, arithmetic, bounds, and set operations.
  */

@@ -28,16 +28,14 @@
 
 using namespace Ariadne;
 
-
-template<class T> void print(const char* label, T const& value) {
+template<class T>
+void print(const char* label, const T& value) {
     std::cout << label << ": " << value << '\n';
 }
-
 
 void section(const char* title) {
     std::cout << "\n=== " << title << " ===\n";
 }
-
 
 void tutorial_interval() {
     //! [Interval tutorial]
@@ -54,27 +52,26 @@ void tutorial_interval() {
 
     section("Exact intervals");
 
-    DyadicInterval dyadic(Dyadic(-1),Dyadic(2));
-    DecimalInterval decimal(Decimal("-1.25"),Decimal("2.50"));
-    RationalInterval rational(Rational(-3,2),Rational(7,4));
+    DyadicInterval dyadic(Dyadic(-1), Dyadic(2));
+    DecimalInterval decimal(Decimal("-1.25"), Decimal("2.50"));
+    RationalInterval rational(Rational(-3, 2), Rational(7, 4));
     RealInterval real(rational);
 
-    print("Dyadic interval",dyadic);
-    print("Decimal interval",decimal);
-    print("Rational interval",rational);
-    print("Real interval",real);
+    print("Dyadic interval", dyadic);
+    print("Decimal interval", decimal);
+    print("Rational interval", rational);
+    print("Real interval", real);
 
     /*
      * Endpoints are available explicitly.  The midpoint, radius and width
      * derive useful one-dimensional geometric information from the interval.
      */
 
-    print("Rational lower bound",rational.lower_bound());
-    print("Rational upper bound",rational.upper_bound());
-    print("Rational midpoint",rational.midpoint());
-    print("Rational radius",rational.radius());
-    print("Rational width",rational.width());
-
+    print("Rational lower bound", rational.lower_bound());
+    print("Rational upper bound", rational.upper_bound());
+    print("Rational midpoint", rational.midpoint());
+    print("Rational radius", rational.radius());
+    print("Rational width", rational.width());
 
     /*
      * ----------------------------------------------------------------------
@@ -88,13 +85,12 @@ void tutorial_interval() {
     section("Predicates");
 
     Rational zero(0);
-    RationalInterval inside_interval(Rational(-1,2),Rational(1,2));
-    RationalInterval outside_interval(Rational(2),Rational(3));
+    RationalInterval inside_interval(Rational(-1, 2), Rational(1, 2));
+    RationalInterval outside_interval(Rational(2), Rational(3));
 
-    print("rational contains 0",contains(rational,zero));
-    print("inside interval subset of rational",subset(inside_interval,rational));
-    print("rational disjoint from [2,3]",disjoint(rational,outside_interval));
-
+    print("rational contains 0", contains(rational, zero));
+    print("inside interval subset of rational", subset(inside_interval, rational));
+    print("rational disjoint from [2,3]", disjoint(rational, outside_interval));
 
     /*
      * ----------------------------------------------------------------------
@@ -108,20 +104,19 @@ void tutorial_interval() {
 
     section("Set-like interval operations");
 
-    RationalInterval left(Rational(-2),Rational(1));
-    RationalInterval right(Rational(0),Rational(3));
+    RationalInterval left(Rational(-2), Rational(1));
+    RationalInterval right(Rational(0), Rational(3));
 
-    auto common=intersection(left,right);
-    auto joined=hull(left,right);
-    auto halves=split(joined);
+    auto common = intersection(left, right);
+    auto joined = hull(left, right);
+    auto halves = split(joined);
 
-    print("left",left);
-    print("right",right);
-    print("intersection",common);
-    print("hull",joined);
-    print("lower split",halves.first);
-    print("upper split",halves.second);
-
+    print("left", left);
+    print("right", right);
+    print("intersection", common);
+    print("hull", joined);
+    print("lower split", halves.first);
+    print("upper split", halves.second);
 
     /*
      * ----------------------------------------------------------------------
@@ -135,15 +130,14 @@ void tutorial_interval() {
     section("Exact floating-point intervals");
 
     DoublePrecision dp;
-    FloatDP minus_one(-1,dp);
-    FloatDP two(2,dp);
-    FloatDPExactInterval exact_float(minus_one,two);
+    FloatDP minus_one(-1, dp);
+    FloatDP two(2, dp);
+    FloatDPExactInterval exact_float(minus_one, two);
 
-    print("FloatDP exact interval",exact_float);
-    print("midpoint",exact_float.midpoint());
-    print("radius",exact_float.radius());
-    print("width",exact_float.width());
-
+    print("FloatDP exact interval", exact_float);
+    print("midpoint", exact_float.midpoint());
+    print("radius", exact_float.radius());
+    print("width", exact_float.width());
 
     /*
      * ----------------------------------------------------------------------
@@ -159,23 +153,22 @@ void tutorial_interval() {
 
     section("Validated upper intervals");
 
-    FloatDPUpperBound one_upper(1,dp);
-    FloatDPUpperBound two_upper(2,dp);
+    FloatDPUpperBound one_upper(1, dp);
+    FloatDPUpperBound two_upper(2, dp);
 
-    FloatDPUpperInterval upper(-one_upper,two_upper);
+    FloatDPUpperInterval upper(-one_upper, two_upper);
     FloatDPUpperInterval enclosed_exact(exact_float);
 
-    print("Validated interval [-1,2]",upper);
-    print("Exact interval as validated enclosure",enclosed_exact);
+    print("Validated interval [-1,2]", upper);
+    print("Exact interval as validated enclosure", enclosed_exact);
 
     /*
      * A comparison involving validated information may itself be validated
      * rather than immediately reducible to an ordinary bool.
      */
 
-    print("validated interval contains 0",contains(upper,FloatDP(0,dp)));
-    print("validated interval subset of itself",subset(upper,upper));
-
+    print("validated interval contains 0", contains(upper, FloatDP(0, dp)));
+    print("validated interval subset of itself", subset(upper, upper));
 
     /*
      * ----------------------------------------------------------------------
@@ -189,14 +182,13 @@ void tutorial_interval() {
 
     section("Validated interval arithmetic");
 
-    FloatDPUpperInterval sum=upper+upper;
-    FloatDPUpperInterval product=upper*upper;
-    FloatDPUpperInterval square=sqr(upper);
+    FloatDPUpperInterval sum = upper + upper;
+    FloatDPUpperInterval product = upper * upper;
+    FloatDPUpperInterval square = sqr(upper);
 
-    print("upper + upper",sum);
-    print("upper * upper",product);
-    print("sqr(upper)",square);
-
+    print("upper + upper", sum);
+    print("upper * upper", product);
+    print("sqr(upper)", square);
 
     /*
      * ----------------------------------------------------------------------
@@ -209,12 +201,11 @@ void tutorial_interval() {
 
     section("Elementary functions");
 
-    FloatDPUpperInterval positive(-FloatDPUpperBound(0,dp),FloatDPUpperBound(1,dp));
+    FloatDPUpperInterval positive(-FloatDPUpperBound(0, dp), FloatDPUpperBound(1, dp));
 
-    print("exp([0,1])",exp(positive));
-    print("sin([0,1])",sin(positive));
-    print("cos([0,1])",cos(positive));
-
+    print("exp([0,1])", exp(positive));
+    print("sin([0,1])", sin(positive));
+    print("cos([0,1])", cos(positive));
 
     /*
      * ----------------------------------------------------------------------
@@ -227,13 +218,12 @@ void tutorial_interval() {
 
     section("Generic Interval<T>");
 
-    Interval<Dyadic> generic(Dyadic(-3),Dyadic(5));
-    print("Interval<Dyadic>",generic);
-    print("generic midpoint",generic.midpoint());
+    Interval<Dyadic> generic(Dyadic(-3), Dyadic(5));
+    print("Interval<Dyadic>", generic);
+    print("generic midpoint", generic.midpoint());
 
     //! [Interval tutorial]
 }
-
 
 int main() {
     tutorial_interval();
