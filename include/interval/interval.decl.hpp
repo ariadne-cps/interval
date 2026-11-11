@@ -40,8 +40,10 @@ class Interval;
 template<class U>
 class VariableInterval;
 
+/** @brief Compile-time predicate testing whether a type is interval. */
 template<class IVL>
 struct IsInterval : False {};
+/** @brief Compile-time predicate testing whether a type is interval. */
 template<class UB>
 struct IsInterval<Interval<UB>> : True {};
 

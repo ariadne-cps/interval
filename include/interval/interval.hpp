@@ -46,62 +46,77 @@ enum class SplitPart : char;
 enum class SplitPart : char { LOWER,
                               MIDDLE,
                               UPPER };
+/** @brief Read the value from the input stream. */
 InputStream& operator>>(InputStream& is, SplitPart& s);
+/** @brief Write the value to the output stream. */
 OutputStream& operator<<(OutputStream& os, const SplitPart& s);
 
+/** @brief Compile-time trait for centre. */
 template<class U>
 struct CentreTrait {
     typedef decltype(declval<U>() - declval<U>()) Type;
 };
+/** @brief Compile-time trait for centre. */
 template<class F>
 struct CentreTrait<UpperBound<F>> {
     typedef Approximation<F> Type;
 };
+/** @brief Compile-time trait for centre. */
 template<class F>
 struct CentreTrait<LowerBound<F>> {
     typedef Approximation<F> Type;
 };
+/** @brief Compile-time trait for centre. */
 template<class P>
 struct CentreTrait<UpperNumber<P>> {
     typedef ApproximateNumber Type;
 };
 
+/** @brief Compile-time trait for midpoint. */
 template<class U>
 struct MidpointTrait {
     typedef decltype(max(-declval<U>(), declval<U>())) Type;
 };
+/** @brief Compile-time trait for midpoint. */
 template<class F>
 struct MidpointTrait<UpperBound<F>> {
     typedef F Type;
 };
+/** @brief Compile-time trait for midpoint. */
 template<class F>
 struct MidpointTrait<LowerBound<F>> {
     typedef F Type;
 };
+/** @brief Compile-time trait for midpoint. */
 template<class F>
 struct MidpointTrait<Bounds<F>> {
     typedef F Type;
 };
+/** @brief Compile-time trait for midpoint. */
 template<class F>
 struct MidpointTrait<Ball<F>> {
     typedef F Type;
 };
+/** @brief Compile-time trait for midpoint. */
 template<class P>
 struct MidpointTrait<UpperNumber<P>> {
     typedef ExactNumber Type;
 };
 
+/** @brief Compile-time trait for radius. */
 template<class U>
 struct RadiusTrait {
     using M = typename MidpointTrait<U>::Type;
     typedef decltype(cast_positive(declval<U>() - declval<M>())) Type;
 };
+/** @brief Compile-time trait for width. */
 template<class U>
 struct WidthTrait {
     using L = decltype(-declval<U>());
     typedef decltype(cast_positive(declval<U>() - declval<L>())) Type;
 };
 
+/** @brief Compile-time trait for characteristics. */
 template<class U>
 struct CharacteristicsTrait<Interval<U>> {
     typedef CharacteristicsType<U> Type;
@@ -114,29 +129,37 @@ class EntireInterval;
 //! \related FloatDPUpperInterval \related FloatBounds \brief Allows the over-approximating interval \a ivl to be treated an over-approximation to a single point.
 template<class F>
 Bounds<F> cast_singleton(const Interval<UpperBound<F>>&);
+/** @brief Construct interval from the supplied arguments. */
 template<class F>
 Interval<UpperBound<F>> make_interval(const Bounds<F>&);
 
+/** @brief Factory constructing compatible interval. */
 template<class UB>
 class IntervalFactory;
 
+/** @brief Factory constructing compatible interval. */
 template<class F>
 class IntervalFactory<UpperBound<F>> {
     typedef typename F::PrecisionType PrecisionType;
     PrecisionType _precision;
 
   public:
+    /** @brief Construct a \c IntervalFactory from precision. */
     IntervalFactory(PrecisionType precision) : _precision(precision) {}
+    /** @brief Construct a compatible object from the supplied value and characteristics. */
     Interval<UpperBound<F>> create(const ValidatedNumber& y) const;
 };
 
+/** @brief Factory constructing compatible interval. */
 template<class F>
 class IntervalFactory<Approximation<F>> {
     typedef typename F::PrecisionType PrecisionType;
     PrecisionType _precision;
 
   public:
+    /** @brief Construct a \c IntervalFactory from precision. */
     IntervalFactory(PrecisionType precision) : _precision(precision) {}
+    /** @brief Construct a compatible object from the supplied value and characteristics. */
     ApproximateInterval<F> create(const ApproximateNumber& y) const {
         return ApproximateInterval<F>(y, y, this->_precision);
     }
@@ -147,8 +170,10 @@ using UpperIntervalFactory = IntervalFactory<UpperBound<F>>;
 template<class F>
 using ApproximateIntervalFactory = IntervalFactory<Approximation<F>>;
 
+/** @brief Declare interval arithmetic operations for the supported operand types. */
 template<class U>
 struct DeclareIntervalArithmeticOperations {};
+/** @brief Declare interval arithmetic operations for the supported operand types. */
 template<class F>
 struct DeclareIntervalArithmeticOperations<UpperBound<F>>
     : DeclareNumericOperations<UpperInterval<F>>,
@@ -160,43 +185,56 @@ struct DeclareIntervalArithmeticOperations<UpperBound<F>>
       ProvideConcreteGenericElementaryOperations<UpperInterval<F>, ValidatedNumber>,
       ProvideConcreteGenericComparisonOperations<UpperInterval<F>, ValidatedNumber, ValidatedKleenean> {
     typedef typename F::PrecisionType PrecisionType;
+    /** @brief Return an upper bound on the absolute value. */
     friend Error<F> mag(const UpperInterval<F>&);
+    /** @brief Compute the product of the first two operands plus the third. */
     friend UpperInterval<F> fma(const UpperInterval<F>& x1, const UpperInterval<F>& x2, UpperInterval<F> y);
+    /** @brief Return a factory for compatible objects. */
     friend UpperIntervalFactory<F> factory(const UpperInterval<F>& ivl) {
         return UpperIntervalFactory<F>(ivl.upper_bound().precision());
     }
 
+    /** @brief Return the working precision. */
     PrecisionType precision() const;
 
+    /** @brief Return the sum or unary positive value. */
     friend UpperInterval<F> operator+(const UpperInterval<F>& ivl1, const F& x2) {
         return make_interval(cast_singleton(ivl1) + x2);
     }
+    /** @brief Return the sum or unary positive value. */
     friend UpperInterval<F> operator+(const F& x1, const UpperInterval<F>& ivl2) {
         return make_interval(x1 + cast_singleton(ivl2));
     }
 
+    /** @brief Return the sum or unary positive value. */
     friend ApproximateInterval<F> operator+(const UpperInterval<F>& ivl1, const Approximation<F>& x2) {
         return ApproximateInterval<F>(ivl1) + x2;
     }
+    /** @brief Return the sum or unary positive value. */
     friend ApproximateInterval<F> operator+(const Approximation<F>& x1, const UpperInterval<F>& ivl2) {
         return x1 + ApproximateInterval<F>(ivl2);
     }
 
+    /** @brief Return the product. */
     friend UpperInterval<F> operator*(const UpperInterval<F>& ivl1, const F& x2) {
         return make_interval(cast_singleton(ivl1) * x2);
     }
+    /** @brief Return the product. */
     friend UpperInterval<F> operator*(const F& x1, const UpperInterval<F>& ivl2) {
         return make_interval(x1 * cast_singleton(ivl2));
     }
 
+    /** @brief Return the product. */
     friend ApproximateInterval<F> operator*(const UpperInterval<F>& ivl1, const Approximation<F>& x2) {
         return ApproximateInterval<F>(ivl1) * x2;
     }
+    /** @brief Return the product. */
     friend ApproximateInterval<F> operator*(const Approximation<F>& x1, const UpperInterval<F>& ivl2) {
         return x1 * ApproximateInterval<F>(ivl2);
     }
 };
 
+/** @brief Declare interval arithmetic operations for the supported operand types. */
 template<class F>
 struct DeclareIntervalArithmeticOperations<Approximation<F>>
     : DeclareNumericOperations<ApproximateInterval<F>>,
@@ -209,18 +247,23 @@ struct DeclareIntervalArithmeticOperations<Approximation<F>>
       ProvideConcreteGenericComparisonOperations<ApproximateInterval<F>, ApproximateNumber, ApproximateKleenean> {
     typedef typename F::PrecisionType PR;
     typedef PR PrecisionType;
+    /** @brief Return a factory for compatible objects. */
     friend ApproximateIntervalFactory<F> factory(const ApproximateInterval<F>& ivl) {
         return ApproximateIntervalFactory<F>(ivl.upper_bound().precision());
     }
+    /** @brief Return an upper bound on the absolute value. */
     friend PositiveApproximation<F> mag(const ApproximateInterval<F>& ivl) {
         return cast_positive(max(-ivl.lower_bound(), ivl.upper_bound()));
     }
+    /** @brief Return the sum of the operands. */
     friend ApproximateInterval<F> add(const ApproximateInterval<F>& ivl1, const ApproximateInterval<F>& ivl2) {
         return ApproximateInterval<F>(ivl1.lower_bound() + ivl2.lower_bound(), ivl1.upper_bound() + ivl2.upper_bound());
     }
+    /** @brief Return the difference of the operands. */
     friend ApproximateInterval<F> sub(const ApproximateInterval<F>& ivl1, const ApproximateInterval<F>& ivl2) {
         return ApproximateInterval<F>(ivl1.lower_bound() - ivl2.upper_bound(), ivl1.upper_bound() - ivl2.lower_bound());
     }
+    /** @brief Return the product of the operands. */
     friend ApproximateInterval<F> mul(const ApproximateInterval<F>& ivl1, const ApproximateInterval<F>& ivl2) {
         auto rll = ivl1.lower_bound() * ivl2.lower_bound();
         auto rlu = ivl1.lower_bound() * ivl2.upper_bound();
@@ -228,11 +271,14 @@ struct DeclareIntervalArithmeticOperations<Approximation<F>>
         auto ruu = ivl1.upper_bound() * ivl2.upper_bound();
         return ApproximateInterval<F>(min(min(rll, rlu), min(rul, ruu)), max(max(rll, rlu), max(rul, ruu)));
     }
+    /** @brief Compute the product of the first two operands plus the third. */
     friend ApproximateInterval<F> fma(const ApproximateInterval<F>& x1, const ApproximateInterval<F>& x2, ApproximateInterval<F> y);
 
+    /** @brief Return the working precision. */
     PR precision() const;
 };
 
+/** @brief Declare interval arithmetic operations for the supported operand types. */
 template<ARawFloat F>
 struct DeclareIntervalArithmeticOperations<F> : DeclareIntervalArithmeticOperations<UpperBound<F>> {};
 
@@ -309,6 +355,7 @@ class Interval
     template<class V>
         requires Constructible<L, V> and Constructible<U, V>
     explicit Interval(const V& v) : _l(v), _u(v) {}
+    /** @brief Construct a \c Interval from v. */
     template<class V>
         requires ConstructibleGivenDefaultPrecision<U, V> and (not Constructible<U, V>)
     explicit Interval(const V& v) : Interval(L(v, RawFloatType<PrecisionType<U>>::get_default_precision()), U(v, RawFloatType<PrecisionType<U>>::get_default_precision())) {}
@@ -385,8 +432,11 @@ class Interval
     //! \brief The width of the interval.
     WidthType width() const;
 
+    /** @brief Set the lower bound. */
     void set_lower_bound(LowerBoundType l);
+    /** @brief Set the upper bound. */
     void set_upper_bound(UpperBoundType u);
+    /** @brief Set the bounds. */
     void set_bounds(LowerBoundType l, UpperBoundType u);
 
     //! Test if the interval is empty.
@@ -425,6 +475,7 @@ inline decltype(auto) characteristics(const Interval<UB>& x);
 template<class U>
 OutputStream& operator<<(OutputStream& os, const Interval<U>& ivl);
 
+/** @brief Construct a \c Interval with the specified characteristics. */
 template<class L, class U>
 Interval(L, U) -> Interval<decltype(min(-declval<L>(), declval<U>()))>;
 
@@ -546,10 +597,14 @@ bool same(const Interval<UpperBound<F>>& ivl1, const Interval<UpperBound<SelfTyp
 
 //! \related FloatDPUpperInterval \related FloatBounds \brief Allows the over-approximating interval \a ivl to be treated an over-approximation to a single point.
 FloatDPBounds cast_singleton(const Interval<FloatDPUpperBound>& ivl);
+/** @brief Construct interval from the supplied arguments. */
 FloatDPUpperInterval make_interval(const FloatDPBounds& x);
+/** @brief Convert to the singleton representation. */
 FloatMPBounds cast_singleton(const Interval<FloatMPUpperBound>& ivl);
+/** @brief Construct interval from the supplied arguments. */
 FloatMPUpperInterval make_interval(const FloatMPBounds& x);
 
+/** @brief Convert to the singleton representation. */
 template<class UB, class PR>
 FloatBounds<PR> cast_singleton(const Interval<UB>& ivl, PR pr) {
     return FloatBounds<PR>(ivl.lower_bound(), ivl.upper_bound(), pr);
@@ -562,8 +617,10 @@ template<class F>
 Interval<UpperBound<F>> widen(const Interval<UpperBound<F>>& ivl);
 template<class F>
 Interval<UpperBound<F>> widen(const Interval<UpperBound<F>>& ivl, UpperBound<F> e);
+/** @brief Enlarge the enclosure by the supplied amount. */
 template<class F>
 Interval<UpperBound<F>> widen(const Interval<UpperBound<F>>& ivl, ValidatedUpperNumber e);
+/** @brief Enlarge the function domain by the supplied amount. */
 template<class F>
 Interval<F> widen_domain(const Interval<UpperBound<F>>& ivl);
 //! \related LowerInterval<F> \brief An interval contained in the interior of the given interval.
@@ -573,15 +630,20 @@ template<class F>
 Interval<LowerBound<F>> narrow(const Interval<LowerBound<F>>& ivl);
 template<class F>
 Interval<LowerBound<F>> narrow(const Interval<LowerBound<F>>& ivl, UpperBound<F> e);
+/** @brief Contract the enclosure using the supplied information. */
 template<class F>
 Interval<UpperBound<F>> narrow(const Interval<LowerBound<F>>& ivl, ValidatedUpperNumber e);
 
+/** @brief Enlarge the function domain by the supplied amount. */
 Interval<FloatDP> widen_domain(const Interval<FloatDPUpperBound>& ivl);
+/** @brief Return an approximate representation of the domain. */
 Interval<FloatDP> approximate_domain(const Interval<FloatDPUpperBound>& ivl);
 
+/** @brief Convert the time interval to the required bound representation. */
 inline Interval<FloatDP> to_time_bounds(const Dyadic& tl, const Dyadic& tu) {
     return Interval<FloatDP>(FloatDPLowerBound(tl, DoublePrecision()).raw(), FloatDPLowerBound(tu, DoublePrecision()).raw());
 }
+/** @brief Convert the time interval to the required bound representation. */
 inline Interval<FloatDP> to_time_bounds(const Interval<Dyadic>& ivl) {
     return to_time_bounds(ivl.lower_bound(), ivl.upper_bound());
 }
@@ -589,7 +651,9 @@ inline Interval<FloatDP> to_time_bounds(const Interval<Dyadic>& ivl) {
 //! \related Interval \brief Read from an input stream.
 InputStream& operator>>(InputStream&, Interval<FloatDP>&);
 
+/** @brief Tag selecting an empty interval. */
 class EmptyInterval {};
+/** @brief Tag selecting the whole real line as an interval. */
 class EntireInterval {};
 
 } // namespace Ariadne

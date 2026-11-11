@@ -33,33 +33,46 @@
 
 namespace Ariadne {
 
+/** @brief Compile-time Python template-name customization. */
 template<>
 struct PythonTemplateName<Interval> {
+    /** @brief Return the requested element or stored value. */
     static std::string get() { return "Interval"; }
 };
 
+/** @brief Compile-time Python class-name customization. */
 template<class X>
 struct PythonClassName<Interval<X>> {
+    /** @brief Return the requested element or stored value. */
     static std::string get() { return python_template_class_name<X>("Interval"); }
 };
 
+/** @brief Compile-time Python class-name customization. */
 template<>
 struct PythonClassName<Interval<FloatDP>> {
+    /** @brief Return the requested element or stored value. */
     static std::string get() { return "FloatDPExactInterval"; }
 };
+/** @brief Compile-time Python class-name customization. */
 template<>
 struct PythonClassName<Interval<FloatDPUpperBound>> {
+    /** @brief Return the requested element or stored value. */
     static std::string get() { return "FloatDPUpperInterval"; }
 };
+/** @brief Compile-time Python class-name customization. */
 template<>
 struct PythonClassName<Interval<FloatDPLowerBound>> {
+    /** @brief Return the requested element or stored value. */
     static std::string get() { return "FloatDPLowerInterval"; }
 };
+/** @brief Compile-time Python class-name customization. */
 template<>
 struct PythonClassName<Interval<FloatDPApproximation>> {
+    /** @brief Return the requested element or stored value. */
     static std::string get() { return "FloatDPApproximateInterval"; }
 };
 
+/** @brief Write the value to the output stream. */
 template<class UB>
 OutputStream& operator<<(OutputStream& os, const PythonLiteral<Interval<UB>>& repr) {
     const Interval<UB>& ivl = repr.reference();
@@ -67,6 +80,7 @@ OutputStream& operator<<(OutputStream& os, const PythonLiteral<Interval<UB>>& re
               << python_literal(ivl.upper_bound()) << ")";
 }
 
+/** @brief Write the value to the output stream. */
 template<class UB>
 OutputStream& operator<<(OutputStream& os, const PythonRepresentation<Interval<UB>>& repr) {
     const Interval<UB>& ivl = repr.reference();
@@ -75,6 +89,7 @@ OutputStream& operator<<(OutputStream& os, const PythonRepresentation<Interval<U
               << python_literal(ivl.upper_bound()) << ")";
 }
 
+/** @brief Expose conversions to Python. */
 template<template<class> class T, class F>
 Void export_conversions(pybind11::class_<T<Approximation<F>>>& cls) {
     cls.def(pybind11::init<T<F>>());
@@ -82,20 +97,24 @@ Void export_conversions(pybind11::class_<T<Approximation<F>>>& cls) {
     cls.def(pybind11::init<T<UpperBound<F>>>());
     cls.def(pybind11::init<T<LowerBound<F>>>());
 }
+/** @brief Expose conversions to Python. */
 template<template<class> class T, class F>
 Void export_conversions(pybind11::class_<T<LowerBound<F>>>& cls) {
     cls.def(pybind11::init<T<F>>());
     cls.def(pybind11::init<T<Bounds<F>>>());
 }
+/** @brief Expose conversions to Python. */
 template<template<class> class T, class F>
 Void export_conversions(pybind11::class_<T<UpperBound<F>>>& cls) {
     cls.def(pybind11::init<T<F>>());
     cls.def(pybind11::init<T<Bounds<F>>>());
 }
+/** @brief Expose conversions to Python. */
 template<template<class> class T, class F>
 Void export_conversions(pybind11::class_<T<Bounds<F>>>& cls) {
     cls.def(pybind11::init<T<F>>());
 }
+/** @brief Expose conversions to Python. */
 template<template<class> class T, class F>
 Void export_conversions(pybind11::class_<T<F>>&) {
 }
