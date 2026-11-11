@@ -22,6 +22,9 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/** @file interval/interval.inl.hpp
+ *  @brief Inline definitions of interval constructors and arithmetic operations.
+ */
 namespace Ariadne {
 
 template<class M>

@@ -22,6 +22,9 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/** @file ariadne-interval.hpp
+ *  @brief Public umbrella header for interval arithmetic and its numeric dependencies.
+ */
 #ifndef ARIADNE_INTERVAL_MODULE_HPP
 #define ARIADNE_INTERVAL_MODULE_HPP
 

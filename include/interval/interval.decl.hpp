@@ -22,6 +22,9 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/** @file interval/interval.decl.hpp
+ *  @brief Forward declarations, concepts, and standard interval type aliases.
+ */
 #ifndef ARIADNE_INTERVAL_DECL_HPP
 #define ARIADNE_INTERVAL_DECL_HPP
 
@@ -30,8 +33,10 @@
 
 namespace Ariadne {
 
+/** @brief Closed numeric interval parameterized by its endpoint representation. */
 template<class U>
 class Interval;
+/** @brief Interval whose endpoints may be changed after construction. */
 template<class U>
 class VariableInterval;
 
@@ -40,6 +45,7 @@ struct IsInterval : False {};
 template<class UB>
 struct IsInterval<Interval<UB>> : True {};
 
+/** @brief Identifies specializations of the Interval class template. */
 template<class IVL>
 concept AnInterval = IsInterval<IVL>::value;
 

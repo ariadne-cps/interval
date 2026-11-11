@@ -22,10 +22,11 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/*! \file geometry/interval.hpp
- *  \brief
- */
 
+
+/** @file interval/interval.hpp
+ *  @brief Interval types, arithmetic, bounds, and set operations.
+ */
 #ifndef ARIADNE_INTERVAL_HPP
 #define ARIADNE_INTERVAL_HPP
 
@@ -244,6 +245,9 @@ concept ConstructibleGivenDefaultPrecision = requires(const T& t, const U& u) { 
 //! \brief Intervals with upper endoint of type \a U.
 //! \details
 //! Not intended for use in basic interval arithmetic; represents a \em geometric rather than a \em numerical object.
+/** @brief Represents an interval of numeric values with endpoints of type U.
+ *  @tparam U Endpoint representation determining arithmetic and precision semantics.
+ */
 template<class U>
 class Interval
     : public DeclareIntervalArithmeticOperations<U> {
